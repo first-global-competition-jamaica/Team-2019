@@ -16,7 +16,7 @@ public class Robot_FGC extends LinearOpMode {
     @Override
     public void runOpMode() {
         RB.init(hardwareMap);
-        LeftP  =  gamepad1.left_stick_y * 0.25;
+        LeftP  =  gamepad1.left_stick_y  * 0.25;
         RightP =  gamepad1.right_stick_y * 0.25;
 
         waitForStart();
