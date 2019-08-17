@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
  * This is the robots hardware.
@@ -17,15 +18,13 @@ public class Hardware_FGC {
     public DcMotor BRight    = null;
     public DcMotor BLeft     = null;
     public DcMotor Intake    = null;
-    public int apples = 0 ;
-
     public HardwareMap hwmap;
 
 
 
  public void  init (HardwareMap ahwmap){
-  hwmap = ahwmap;
 
+     this.hwmap = ahwmap;
      FRight = hwmap.get(DcMotor.class, "FRight");
      FLeft  = hwmap.get(DcMotor.class, "FLeft");
      BRight = hwmap.get(DcMotor.class, "BRight");
