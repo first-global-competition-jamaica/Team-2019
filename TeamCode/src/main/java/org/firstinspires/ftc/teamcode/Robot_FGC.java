@@ -16,12 +16,12 @@ public class Robot_FGC extends LinearOpMode {
     @Override
     public void runOpMode() {
         RB.init(hardwareMap);
-        LeftP  =  gamepad1.left_stick_y  * 0.25;
-        RightP =  gamepad1.right_stick_y * 0.25;
+
 
         waitForStart();
         while (opModeIsActive()){
-
+            LeftP  =  gamepad1.left_stick_y  * 0.25;
+            RightP =  gamepad1.right_stick_y * 0.25;
             Movement();
 
             Intake();
@@ -41,10 +41,10 @@ public class Robot_FGC extends LinearOpMode {
 
     private void Intake(){
         if (gamepad1.right_trigger > 0){
-            RB.Intake.setPower(1);
+            RB.Intake.setPower(gamepad1.right_trigger);
         }
             else if (gamepad1.left_trigger >0){
-                RB.Intake.setPower(-1);
+                RB.Intake.setPower(-gamepad1.left_trigger);
         }
 
 

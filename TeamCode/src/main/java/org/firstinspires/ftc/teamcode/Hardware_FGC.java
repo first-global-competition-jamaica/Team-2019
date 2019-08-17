@@ -12,13 +12,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Hardware_FGC {
 
 
-    public DcMotor FRight    = null;
-    public DcMotor FLeft     = null;
-    public DcMotor BRight    = null;
-    public DcMotor BLeft     = null;
-    public DcMotor Intake    = null;
+    public static DcMotor FRight    = null;
+    public static DcMotor FLeft     = null;
+    public static DcMotor BRight    = null;
+    public static DcMotor BLeft     = null;
+    public static DcMotor Intake    = null;
 
-    public HardwareMap hwmap;
+    public static HardwareMap hwmap;
 
 
 
@@ -27,7 +27,7 @@ public class Hardware_FGC {
 
     }
 
- public void init (HardwareMap ahwmap){
+ public static void init (HardwareMap ahwmap){
   hwmap = ahwmap;
 
      FRight = hwmap.get(DcMotor.class, "FRight");
