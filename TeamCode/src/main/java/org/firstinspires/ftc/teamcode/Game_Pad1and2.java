@@ -109,6 +109,7 @@ public class Game_Pad1and2 extends LinearOpMode {
              rightPower = gamepad1.right_stick_y * 0.25;
 
             //test drive for only one analog stick
+
             //leftPower  = gamepad1.left_stick_y + gamepad1.left_stick_x;
             //rightPower = gamepad1.left_stick_y - gamepad1.left_stick_x;
 
