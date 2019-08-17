@@ -17,17 +17,13 @@ public class Hardware_FGC {
     public DcMotor BRight    = null;
     public DcMotor BLeft     = null;
     public DcMotor Intake    = null;
+    public int apples = 0 ;
 
     public HardwareMap hwmap;
 
 
 
-
-    Hardware_FGC (){
-
-    }
-
- public void init (HardwareMap ahwmap){
+ public void  init (HardwareMap ahwmap){
   hwmap = ahwmap;
 
      FRight = hwmap.get(DcMotor.class, "FRight");

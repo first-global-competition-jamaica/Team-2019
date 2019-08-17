@@ -13,6 +13,9 @@ public class Robot_FGC extends LinearOpMode {
     private double LeftP ;
     private double RightP;
 
+    // varibales
+    public boolean a_press = false;
+
     @Override
     public void runOpMode() {
         RB.init(hardwareMap);
@@ -40,27 +43,27 @@ public class Robot_FGC extends LinearOpMode {
     }
 
     private void Intake(){
-        if (gamepad1.right_trigger > 0){
-            RB.Intake.setPower(1);
-        }
-            else if (gamepad1.left_trigger >0){
+        if(!a_press){
+            if (gamepad1.right_trigger > 0){
+                RB.Intake.setPower(1);
+            }else if (gamepad1.left_trigger >0){
                 RB.Intake.setPower(-1);
+            }else{
+                RB.Intake.setPower(0);
+            }
         }
-
 
         if (gamepad1.a) {
             RB.Intake.setPower(1);
+            a_press = true;
             telemetry.addData("Conveyor Status" , "ON");
             telemetry.update();
+        }else if (gamepad1.b){
+            RB.Intake.setPower(0);
+            a_press = false;
+            telemetry.addData("Conveyor Status" , "OFF");
+            telemetry.update();
         }
-            else if (gamepad1.b){
-                RB.Intake.setPower(0);
-                telemetry.addData("Conveyor Status" , "OFF");
-                telemetry.update();
-        }
-
-
-
 
 
     }
