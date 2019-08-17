@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.util.Range;
  * It includes all the skeletal structure that all linear OpModes contain.
  */
 
-@TeleOp(name="Basic: GamePad1and2", group="FGC_TeamJamaica")
+@TeleOp(name="Basic: Test Code", group="FGC_TeamJamaica")
 
 public class Game_Pad1and2 extends LinearOpMode {
 

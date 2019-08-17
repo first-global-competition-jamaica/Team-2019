@@ -40,6 +40,14 @@ public class Robot_FGC extends LinearOpMode {
     }
 
     private void Intake(){
+        if (gamepad1.right_trigger > 0){
+            RB.Intake.setPower(1);
+        }
+            else if (gamepad1.left_trigger >0){
+                RB.Intake.setPower(-1);
+        }
+
+
         if (gamepad1.a) {
             RB.Intake.setPower(1);
             telemetry.addData("Conveyor Status" , "ON");
