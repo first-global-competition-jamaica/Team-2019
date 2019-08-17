@@ -15,9 +15,7 @@ public class Robot_FGC extends LinearOpMode {
 
     double LeftP ;
     double RightP;
-
-    // varibales
-    public boolean a_press = false;
+    private boolean a_press = false;
 
     @Override
     public void runOpMode() {
@@ -26,6 +24,7 @@ public class Robot_FGC extends LinearOpMode {
 
         RB.init(hardwareMap);
         runtime.reset();
+
 
 
         waitForStart();
@@ -53,17 +52,26 @@ public class Robot_FGC extends LinearOpMode {
         // code for the button action
 
         if(!a_press){
+//            if (gamepad1.right_trigger > 0){
+//                RB.Intake.setPower(1);
+//            }else if (gamepad1.left_trigger >0){
+//                RB.Intake.setPower(-1);
+//            }else{
+//                RB.Intake.setPower(0);
+//            }
+
+            //code to control the rate of the intake
             if (gamepad1.right_trigger > 0){
-                RB.Intake.setPower(1);
-            }else if (gamepad1.left_trigger >0){
-                RB.Intake.setPower(-1);
+                RB.Intake.setPower(gamepad1.right_trigger);
+            }
+            else if (gamepad1.left_trigger > 0){
+                RB.Intake.setPower(-gamepad1.left_trigger);
             }else{
                 RB.Intake.setPower(0);
             }
         }
 
         // code for the switching action for the conveyor
-
         if (gamepad1.a) {
             RB.Intake.setPower(1);
             a_press = true;
@@ -76,7 +84,6 @@ public class Robot_FGC extends LinearOpMode {
             telemetry.addData("Conveyor Status" , "OFF");
             telemetry.update();
         }
-
 
     }
 }
