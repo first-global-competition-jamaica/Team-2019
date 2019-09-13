@@ -11,11 +11,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Robot_FGC extends LinearOpMode {
 
     private Hardware_FGC RB = new Hardware_FGC();
-    private ElapsedTime runtime  = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
-    double LeftP ;
-    double RightP;
-    private boolean a_press = false;
+    private double LeftP;
+    private double RightP;
+    boolean a_press = false;
+    double multMax = 0.75;
+    double multMed = 0.5;
+    double multMin = 0.25;
 
     @Override
     public void runOpMode() {
@@ -26,20 +29,26 @@ public class Robot_FGC extends LinearOpMode {
         runtime.reset();
 
 
-
         waitForStart();
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
 
             Movement();
 
             Intake();
+
+            VariableSpeed();
+
+            //Linearslide();
+
+            //Lift();
+
         }
     }
 
 
-    private void Movement(){
-        LeftP  =  gamepad1.left_stick_y  * 0.25;
-        RightP =  gamepad1.right_stick_y * 0.25;
+    private void Movement() {
+        LeftP = gamepad1.left_stick_y * multMin;
+        RightP = gamepad1.right_stick_y * multMin;
         RB.FLeft.setPower(LeftP);
         RB.FRight.setPower(RightP);
         RB.BLeft.setPower(LeftP);
@@ -48,10 +57,10 @@ public class Robot_FGC extends LinearOpMode {
     }
 
 
-    private void Intake(){
+    private void Intake() {
         // code for the button action
 
-        if(!a_press){
+        if (!a_press) {
 //            if (gamepad1.right_trigger > 0){
 //                RB.Intake.setPower(1);
 //            }else if (gamepad1.left_trigger >0){
@@ -61,12 +70,11 @@ public class Robot_FGC extends LinearOpMode {
 //            }
 
             //code to control the rate of the intake
-            if (gamepad1.right_trigger > 0){
+            if (gamepad1.right_trigger > 0) {
                 RB.Intake.setPower(gamepad1.right_trigger);
-            }
-            else if (gamepad1.left_trigger > 0){
+            } else if (gamepad1.left_trigger > 0) {
                 RB.Intake.setPower(-gamepad1.left_trigger);
-            }else{
+            } else {
                 RB.Intake.setPower(0);
             }
         }
@@ -75,15 +83,59 @@ public class Robot_FGC extends LinearOpMode {
         if (gamepad1.a) {
             RB.Intake.setPower(1);
             a_press = true;
-            telemetry.addData("Conveyor Status" , "ON");
+            telemetry.addData("Conveyor Status", "ON");
             telemetry.update();
         }
-        if (gamepad1.b){
+        if (gamepad1.b) {
             RB.Intake.setPower(0);
             a_press = false;
-            telemetry.addData("Conveyor Status" , "OFF");
+            telemetry.addData("Conveyor Status", "OFF");
             telemetry.update();
         }
+
+    }
+
+
+    //this object contains the code for varying the speed of the
+    //motor at the press of a bot
+
+    private void VariableSpeed() {
+
+        if( gamepad1.x = true){
+
+            RB.FLeft.setPower(multMed);
+            RB.FRight.setPower(multMed);
+            RB.BLeft.setPower(multMed);
+            RB.BRight.setPower(multMed);
+            }
+        else if(gamepad1.y = true){
+
+            RB.FLeft.setPower(multMax);
+            RB.FRight.setPower(multMax);
+            RB.BLeft.setPower(multMax);
+            RB.BRight.setPower(multMax);
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

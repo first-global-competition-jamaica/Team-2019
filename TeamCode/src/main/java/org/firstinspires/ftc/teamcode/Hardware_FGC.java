@@ -21,6 +21,8 @@ public class Hardware_FGC {
 
 
 
+
+
  public void  init (HardwareMap ahwmap){
      this.hwmap = ahwmap;
      FRight = hwmap.get(DcMotor.class, "FRight");
