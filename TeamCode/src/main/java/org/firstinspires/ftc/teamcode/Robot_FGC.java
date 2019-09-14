@@ -40,6 +40,7 @@ public class Robot_FGC extends LinearOpMode {
 
             //Linearslide();
 
+
             //Lift();
 
         }
@@ -103,12 +104,13 @@ public class Robot_FGC extends LinearOpMode {
 
         if( gamepad1.x = true){
 
+
             RB.FLeft.setPower(multMed);
             RB.FRight.setPower(multMed);
             RB.BLeft.setPower(multMed);
             RB.BRight.setPower(multMed);
             }
-        else if(gamepad1.y = true){
+         if(gamepad1.y = true){
 
             RB.FLeft.setPower(multMax);
             RB.FRight.setPower(multMax);
@@ -138,4 +140,21 @@ public class Robot_FGC extends LinearOpMode {
 
 
     }
+
+         /* private void lift (){
+        if(gamepad1.dpad_down)
+            RB.lift.setpowerto 0.2
+            else RB.lift.Setpower 0
+     }
+        if(gamepad1.dpad_up)
+        RB.lift.setpower 0.2.
+        RB.lift.setpower 0 */
+
 }
+
+
+
+
+
+
+
