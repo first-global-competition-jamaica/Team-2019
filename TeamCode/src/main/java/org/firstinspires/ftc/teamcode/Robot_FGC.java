@@ -41,7 +41,7 @@ public class Robot_FGC extends LinearOpMode {
             //Linearslide();
 
 
-            Lift();
+            //Lift();
 
         }
     }
@@ -102,27 +102,22 @@ public class Robot_FGC extends LinearOpMode {
 
     private void VariableSpeed() {
 
-        if( gamepad1.x){
+        if( gamepad1.x = true){
 
 
             RB.FLeft.setPower(multMed);
             RB.FRight.setPower(multMed);
             RB.BLeft.setPower(multMed);
             RB.BRight.setPower(multMed);
-            telemetry.addData(   "Current speed"  ,"0.5");
-        } else if(gamepad1.y){
+            }
+         if(gamepad1.y = true){
 
             RB.FLeft.setPower(multMax);
             RB.FRight.setPower(multMax);
             RB.BLeft.setPower(multMax);
             RB.BRight.setPower(multMax);
-             telemetry.addData(   "Current speed"  ,"0.75");
-         } else if (gamepad1.y){
-            RB.FLeft.setPower(multMin);
-            RB.FRight.setPower(multMin);
-            RB.BLeft.setPower(multMin);
-            RB.BRight.setPower(multMin);
-              }
+
+            }
 
 
 
@@ -146,15 +141,14 @@ public class Robot_FGC extends LinearOpMode {
 
     }
 
-    private void Lift() {
-        if(gamepad1.dpad_down){
-            RB.lift.setpowerto (0.2);
-            else RB.lift.Setpower (0);
+         /* private void lift (){
+        if(gamepad1.dpad_down)
+            RB.lift.setpowerto 0.2
+            else RB.lift.Setpower 0
      }
         if(gamepad1.dpad_up)
-        RB.lift.setpower (0.2);
-        RB.lift.setpower (0);
-    }
+        RB.lift.setpower 0.2.
+        RB.lift.setpower 0 */
 
 }
 

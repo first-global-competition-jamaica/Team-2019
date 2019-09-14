@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 
 
-public class Hardware_FGC {
+public class FGC_Jamaica_2019_Hardware {
 
 
     public DcMotor FRight    = null;
