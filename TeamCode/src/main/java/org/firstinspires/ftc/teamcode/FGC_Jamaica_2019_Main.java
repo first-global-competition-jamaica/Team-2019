@@ -31,16 +31,17 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive()){
 
-            Movement();
+            movement();
 
-            Intake();
+            intake();
+
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
         }
     }
 
 
-    private void Movement(){
+    private void movement(){
         LeftP  =  gamepad1.left_stick_y;
         RightP =  gamepad1.right_stick_y;
 
@@ -77,13 +78,9 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         double leftmotor = (robot_hardware.FLeft.getPower() + robot_hardware.BLeft.getPower())/2;
         telemetry.addData("Controller Power:", "left (%.2f), right (%.2f)", LeftP, RightP);
         telemetry.addData("Actual Motor Power:", "left (%.2f), right (%.2f)",leftmotor, rightmotor);
-
-
-
     }
 
-
-    private void Intake(){
+    private void intake(){
         // code for the button action
 
         if(!a_press){
@@ -124,6 +121,19 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
     }
 
+    private void lift(){
+        if(gamepad1.left_bumper){
+            robot_hardware.lift1.setpower(0.45);
+            robot_hardware.lift2.setpower(0.45);
+
+        }else if(gamepad1.right_bumper){
+            robot_hardware.lift1.setpower(-0.45);
+
+        }
+
+    }
+
+
     public void speedChanger(){
         if(gamepad1.dpad_up){
             SpeedReducer = 0.5;
@@ -134,6 +144,13 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         }
 
     }
+    /**These Are all the Gamepad buttons and their uses in this method
+     * Dpad_up   -> sets the value of speed reducer to  speed
+     * Dpad_down -> sets the value of speed reducer to
+     * Dpad_left
+     * Dpad_right
+     */
+
 
     public double[] speedDampener(double leftPower, double rightPower){
         double  newLeftPower= 0;

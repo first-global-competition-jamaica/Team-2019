@@ -17,6 +17,8 @@ public class FGC_Jamaica_2019_Hardware {
     public DcMotor BRight    = null;
     public DcMotor BLeft     = null;
     public DcMotor Intake    = null;
+    public DcMotor lift1     = null;
+    public DcMotor lift2     = null;
     public HardwareMap hwmap;
 
 
