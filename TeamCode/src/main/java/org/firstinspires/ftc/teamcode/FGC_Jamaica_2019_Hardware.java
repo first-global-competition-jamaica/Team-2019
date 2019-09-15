@@ -24,7 +24,7 @@ public class FGC_Jamaica_2019_Hardware {
     public HardwareMap hwmap;
 
 
-
+/* this is the hardware mapping of the device*/
  public void  init (HardwareMap ahwmap){
      this.hwmap = ahwmap;
      FRight = hwmap.get(DcMotor.class, "FRight");
