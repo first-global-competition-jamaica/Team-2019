@@ -11,12 +11,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
     private FGC_Jamaica_2019_Hardware robot_hardware = new FGC_Jamaica_2019_Hardware();
-    private ElapsedTime runtime  = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
-    private double LeftP ;
+    private double LeftP;
     private double RightP;
     private double SpeedReducer = 0.35;
-    private  double dampeningThreshold = 0.05;
+    private double dampeningThreshold = 0.05;
     private boolean a_press, gamemode = false;
 
 
@@ -29,11 +29,16 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
 
             movement();
 
             intake();
+
+            lift();
+
+            basket();
+
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
@@ -41,22 +46,22 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     }
 
 
-    private void movement(){
-        LeftP  =  gamepad1.left_stick_y;
-        RightP =  gamepad1.right_stick_y;
+    private void movement() {
+        LeftP = gamepad1.left_stick_y;
+        RightP = gamepad1.right_stick_y;
 
         //Speed changer
         speedChanger();
 
         // Code for the GameMode using one Joystick to control the robot
-        if(gamepad1.left_stick_button && gamepad1.a){
+        if (gamepad1.left_stick_button && gamepad1.a) {
             gamemode = true;
-        }else if(gamepad1.left_stick_button && gamepad1.right_stick_button){
+        } else if (gamepad1.left_stick_button && gamepad1.right_stick_button) {
             gamemode = false;
         }
 
-        if(gamemode){
-            LeftP  = gamepad1.left_stick_y - gamepad1.left_stick_x;
+        if (gamemode) {
+            LeftP = gamepad1.left_stick_y - gamepad1.left_stick_x;
             RightP = gamepad1.left_stick_y + gamepad1.left_stick_x;
         }
         //Reduce the speed of the robot
@@ -65,94 +70,100 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         RightP = RightP * SpeedReducer;
 
         //dampen the speed
-        double[] newSpeed = speedDampener(LeftP, RightP);
-        LeftP = newSpeed[0];
-        RightP = newSpeed[1];
+        // double[] newSpeed = speedDampener(LeftP, RightP);
+        // LeftP = newSpeed[0];
+        // RightP = newSpeed[1];
 
         // Set the values to the wheel
         robot_hardware.FLeft.setPower(LeftP);
         robot_hardware.FRight.setPower(RightP);
         robot_hardware.BLeft.setPower(LeftP);
         robot_hardware.BRight.setPower(RightP);
-        double rightmotor = (robot_hardware.FRight.getPower() + robot_hardware.BRight.getPower())/2;
-        double leftmotor = (robot_hardware.FLeft.getPower() + robot_hardware.BLeft.getPower())/2;
+        double rightmotor = (robot_hardware.FRight.getPower() + robot_hardware.BRight.getPower()) / 2;
+        double leftmotor = (robot_hardware.FLeft.getPower() + robot_hardware.BLeft.getPower()) / 2;
         telemetry.addData("Controller Power:", "left (%.2f), right (%.2f)", LeftP, RightP);
-        telemetry.addData("Actual Motor Power:", "left (%.2f), right (%.2f)",leftmotor, rightmotor);
+        telemetry.addData("Actual Motor Power:", "left (%.2f), right (%.2f)", leftmotor, rightmotor);
     }
 
-    private void intake(){
+    private void intake() {
         // code for the button action
 
-        if(!a_press){
+        if (!a_press) {
 //            if (gamepad1.right_trigger > 0){
 //                robot_hardware.Intake.setPower(1);
 //            }else if (gamepad1.left_trigger >0){
 //                robot_hardware.Intake.setPower(-1);
 //            }else{
 //                robot_hardware.Intake.setPower(0);
-//            }
+//
 
 
             //code to control the rate of the intake
-            if (gamepad2.right_trigger > 0){
+            if (gamepad2.right_trigger > 0) {
                 robot_hardware.Intake.setPower(gamepad2.right_trigger);
-                telemetry.addData("Conveyor Status" , "ON");
-            }
-            else if (gamepad2.left_trigger > 0){
+                telemetry.addData("Conveyor Status", "ON");
+            } else if (gamepad2.left_trigger > 0) {
                 robot_hardware.Intake.setPower(-gamepad2.left_trigger);
-                telemetry.addData("Conveyor Status" , "ON");
-            }else{
+                telemetry.addData("Conveyor Status", "ON");
+            } else {
                 robot_hardware.Intake.setPower(0);
-                telemetry.addData("Conveyor Status" , "OFF");
+                telemetry.addData("Conveyor Status", "OFF");
             }
         }
 
         // code for the switching action for the conveyor
-        if (gamepad2.a ) {
+        if (gamepad2.a) {
             robot_hardware.Intake.setPower(-1);
             a_press = true;
-            telemetry.addData("Conveyor Status" , "ON");
-        }
-        if (gamepad2.b){
+            telemetry.addData("Conveyor Status", "ON");
+        } else if (gamepad2.b) {
             robot_hardware.Intake.setPower(0);
             a_press = false;
-            telemetry.addData("Conveyor Status" , "OFF");
+            telemetry.addData("Conveyor Status", "OFF");
         }
 
     }
 
-    private void lift(){
-        if(gamepad1.left_bumper){
-            robot_hardware.lift1.setpower(0.45);
-            robot_hardware.lift2.setpower(0.45);
+    private void lift() {
+        if (gamepad1.left_bumper) {
+            robot_hardware.lift_motor1.setPower(0.45);
+            robot_hardware.lift_motor2.setPower(0.45);
+        } else if (gamepad1.right_bumper) {
+            robot_hardware.lift_motor1.setPower(-0.45);
+            robot_hardware.lift_motor2.setPower(-0.45);
 
-        }else if(gamepad1.right_bumper){
-            robot_hardware.lift1.setpower(-0.45);
 
         }
 
     }
 
+    public void basket() {
+        if (gamepad1.right_bumper) {
+            robot_hardware.basketServo1.setPosition(0.45);
 
-    public void speedChanger(){
-        if(gamepad1.dpad_up){
+        }
+    }
+
+
+    public void speedChanger() {
+        if (gamepad1.dpad_up) {
             SpeedReducer = 0.5;
-        }else if(gamepad1.dpad_down){
+        } else if (gamepad1.dpad_down) {
             SpeedReducer = 0.35;
-        }else if(gamepad1.dpad_left){
+        } else if (gamepad1.dpad_left) {
             SpeedReducer = 1;
         }
 
     }
     /**These Are all the Gamepad buttons and their uses in this method
-     * Dpad_up   -> sets the value of speed reducer to  speed
-     * Dpad_down -> sets the value of speed reducer to
-     * Dpad_left
-     * Dpad_right
+     * Dpad_up    -> sets the value of speed reducer to  speed
+     * Dpad_down  -> sets the value of speed reducer to
+     * Dpad_left  -> s
+     * Dpad_right ->
      */
 
 
-    public double[] speedDampener(double leftPower, double rightPower){
+   /* public double[] speedDampener(double leftPower, double rightPower){
         double  newLeftPower= 0;
         double newRightPower = 0;
         double[] values = new double[2];
@@ -175,4 +186,9 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         values[1] = rightPower;
         return values;
     }
+}*/
+
+
 }
+
+
