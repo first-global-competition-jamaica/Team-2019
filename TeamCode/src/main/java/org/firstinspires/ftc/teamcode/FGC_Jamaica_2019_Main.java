@@ -3,7 +3,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.MagneticFlux;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
 
 @TeleOp (name = "Main Code", group = "FGC-Jamaica")
@@ -15,9 +19,12 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
     private double LeftP;
     private double RightP;
-    private double SpeedReducer = 0.35;
+    private double SpeedMultiplier = 0.5;
     private double dampeningThreshold = 0.05;
     private boolean a_press, gamemode = false;
+
+
+
 
 
     @Override
@@ -66,8 +73,8 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         }
         //Reduce the speed of the robot
 
-        LeftP = LeftP * SpeedReducer;
-        RightP = RightP * SpeedReducer;
+        LeftP = LeftP * SpeedMultiplier;
+        RightP = RightP * SpeedMultiplier;
 
         //dampen the speed
         // double[] newSpeed = speedDampener(LeftP, RightP);
@@ -112,11 +119,11 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         }
 
         // code for the switching action for the conveyor
-        if (gamepad2.a) {
+        if (gamepad1.a) {
             robot_hardware.Intake.setPower(-1);
             a_press = true;
             telemetry.addData("Conveyor Status", "ON");
-        } else if (gamepad2.b) {
+        } else if (gamepad1.b) {
             robot_hardware.Intake.setPower(0);
             a_press = false;
             telemetry.addData("Conveyor Status", "OFF");
@@ -125,44 +132,69 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     }
 
     private void lift() {
-        if (gamepad1.left_bumper) {
+        if (gamepad2.left_bumper) {
             robot_hardware.lift_motor1.setPower(0.45);
             robot_hardware.lift_motor2.setPower(0.45);
-        } else if (gamepad1.right_bumper) {
+        } else if (gamepad2.right_bumper) {
             robot_hardware.lift_motor1.setPower(-0.45);
             robot_hardware.lift_motor2.setPower(-0.45);
 
 
         }
-
-    }
-
-    public void basket() {
-        if (gamepad1.right_bumper) {
-            robot_hardware.basketServo1.setPosition(0.45);
+        if (robot_hardware.limit_lift_switch.getState()) {
+            {robot_hardware.lift_motor1.setPower(0);
+            robot_hardware.lift_motor1.setPower(0);
+            }
 
         }
     }
 
 
+    //TODO :test basket code with bot
+
+    public void basket(){
+        if (gamepad2.right_bumper) {
+
+            robot_hardware.basketServo1.setPosition(0.45);
+            robot_hardware.basketServo2.setPosition(0.45);
+        }else if(gamepad2.left_bumper)
+        {robot_hardware.basketServo1.setPosition(0);
+              robot_hardware.basketServo2.setPosition(0);
+
+        }
+    }
+
+
+
+
+
+
+
+//TODO : Make the speed Multiplier Use only the up and down Dpad Buttons
     public void speedChanger() {
         if (gamepad1.dpad_up) {
-            SpeedReducer = 0.5;
+            SpeedMultiplier = 0.5;
         } else if (gamepad1.dpad_down) {
-            SpeedReducer = 0.35;
+            SpeedMultiplier = 0.35;
         } else if (gamepad1.dpad_left) {
-            SpeedReducer = 1;
+            SpeedMultiplier = 1;
         }
+        telemetry.addData("Status","Max speed: " + SpeedMultiplier);
+        telemetry.update();
+
 
     }
+
+
+
     /**These Are all the Gamepad buttons and their uses in this method
-     * Dpad_up    -> sets the value of speed reducer to  speed
-     * Dpad_down  -> sets the value of speed reducer to
-     * Dpad_left  -> s
-     * Dpad_right ->
+     * Dpad1_up    -> sets the value of speed reducer to  speed
+     * Dpad1_down  -> sets the value of speed reducer to
+     *  ->
+     * Dpad1_right ->
      */
 
-
+//TODO : Make a working speed dampener
    /* public double[] speedDampener(double leftPower, double rightPower){
         double  newLeftPower= 0;
         double newRightPower = 0;
