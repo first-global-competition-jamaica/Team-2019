@@ -141,13 +141,13 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
 
         }
-        if (robot_hardware.limit_lift_switch.getState()) {
+      /*  if (robot_hardware.limit_lift_switch.getState()) {
             {robot_hardware.liftMotor1.setPower(0);
             robot_hardware.liftMotor1.setPower(0);
 
             }
 
-        }
+        }*/
     }
 
 
@@ -158,7 +158,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
             robot_hardware.basketServo1.setPosition(0.45);
             robot_hardware.basketServo2.setPosition(0.45);
-        }else if(gamepad2.left_bumper = false)
+        }else if(gamepad2.left_bumper)
         {robot_hardware.basketServo1.setPosition(0);
               robot_hardware.basketServo2.setPosition(0);
 

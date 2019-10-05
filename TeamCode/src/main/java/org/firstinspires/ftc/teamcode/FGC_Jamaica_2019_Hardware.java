@@ -23,7 +23,7 @@ public class FGC_Jamaica_2019_Hardware {
     public DcMotor liftMotor2 = null;
     public Servo basketServo1 = null;
     public Servo basketServo2 = null;
-    public DigitalChannel limit_lift_switch = null;
+   // public DigitalChannel limit_lift_switch = null;
     public HardwareMap hwmap;
 
 
@@ -35,7 +35,7 @@ public class FGC_Jamaica_2019_Hardware {
      BRight = hwmap.get(DcMotor.class, "BRight");
      BLeft  = hwmap.get(DcMotor.class, "BLeft");
      Intake = hwmap.get(DcMotor.class, "Intake");
-     limit_lift_switch = hwmap.get(DigitalChannel.class, "lift_switch");
+    // limit_lift_switch = hwmap.get(DigitalChannel.class, "lift_switch");
      liftMotor1 = hwmap.get(DcMotor.class, "limit_Left");
      liftMotor2 = hwmap.get(DcMotor.class, "limit_right");
 
@@ -45,7 +45,7 @@ public class FGC_Jamaica_2019_Hardware {
      BRight.setDirection(DcMotor.Direction.REVERSE);
      liftMotor1.setDirection(DcMotor.Direction.REVERSE);
      liftMotor2.setDirection(DcMotor.Direction.REVERSE);
-     limit_lift_switch.setMode(DigitalChannel.Mode.INPUT);
+    // limit_lift_switch.setMode(DigitalChannel.Mode.INPUT);
 
  }
 }
