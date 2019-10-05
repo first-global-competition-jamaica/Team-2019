@@ -154,7 +154,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     //TODO :test basket code with bot
 
     public void basket(){
-        if (gamepad2.right_bumper) {
+        if (gamepad2.dpad_up) {
 
             robot_hardware.basketServo1.setPosition(0.45);
             robot_hardware.basketServo2.setPosition(0.45);
@@ -174,6 +174,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 //TODO : Make the speed Multiplier Use only the up and down Dpad Buttons
     public void speedChanger() {
         if (gamepad1.dpad_up) {
+
             SpeedMultiplier = 0.5;
         } else if (gamepad1.dpad_down) {
             SpeedMultiplier = 0.35;
