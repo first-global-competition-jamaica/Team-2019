@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -23,11 +24,11 @@ public class FGC_Jamaica_2019_Hardware {
     public DcMotor liftMotor2 = null;
     public Servo basketServo1 = null;
     public Servo basketServo2 = null;
-   // public DigitalChannel limit_lift_switch = null;
+    public DigitalChannel limit_lift_switch = null;
     public HardwareMap hwmap;
 
 
-/* this is the hardware mapping of the device*/
+// this is the hardware mapping of the device
  public void  init (HardwareMap ahwmap){
      this.hwmap = ahwmap;
      FRight = hwmap.get(DcMotor.class, "FRight");
@@ -35,11 +36,11 @@ public class FGC_Jamaica_2019_Hardware {
      BRight = hwmap.get(DcMotor.class, "BRight");
      BLeft  = hwmap.get(DcMotor.class, "BLeft");
      Intake = hwmap.get(DcMotor.class, "Intake");
-    // limit_lift_switch = hwmap.get(DigitalChannel.class, "lift_switch");
+     limit_lift_switch = hwmap.get(DigitalChannel.class, "lift_switch");
      liftMotor1 = hwmap.get(DcMotor.class, "liftLeft");
-     liftMotor2 = hwmap.get(DcMotor.class, "liftright");
+     liftMotor2 = hwmap.get(DcMotor.class, "liftRight");
      basketServo1 = hwmap.get(Servo.class, "servo1");
-     basketServo1 = hwmap.get(Servo.class, "servo2");
+     basketServo2 = hwmap.get(Servo.class, "servo2");
 
 
      FLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -48,9 +49,10 @@ public class FGC_Jamaica_2019_Hardware {
      BRight.setDirection(DcMotor.Direction.REVERSE);
      liftMotor1.setDirection(DcMotor.Direction.REVERSE);
      liftMotor2.setDirection(DcMotor.Direction.REVERSE);
-    // limit_lift_switch.setMode(DigitalChannel.Mode.INPUT);
-     basketServo2.setPosition(0.0);
-     basketServo2.setPosition(0.0);
+     limit_lift_switch.setMode(DigitalChannel.Mode.INPUT);
+     basketServo1.setDirection(Servo.Direction.FORWARD);
+     basketServo2.setDirection(Servo.Direction. REVERSE);
+
 
 
  }

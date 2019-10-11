@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import android.graphics.Path;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -20,7 +22,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     private double LeftP;
     private double RightP;
     private double SpeedMultiplier = 0.5;
-    private double dampeningThreshold = 0.05;
+   // private double dampeningThreshold = 0.05;
     private boolean a_press, gamemode = false;
 
 
@@ -45,6 +47,8 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
             lift();
 
             basket();
+
+            //speedChangerVer2();
 
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -76,10 +80,6 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         LeftP = LeftP * SpeedMultiplier;
         RightP = RightP * SpeedMultiplier;
 
-        //dampen the speed
-        // double[] newSpeed = speedDampener(LeftP, RightP);
-        // LeftP = newSpeed[0];
-        // RightP = newSpeed[1];
 
         // Set the values to the wheel
         robot_hardware.FLeft.setPower(LeftP);
@@ -132,34 +132,54 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     }
 
     private void lift() {
+        // Initialization block
+       // Path.Direction liftMotor1 = null;
+       // Path.Direction liftMotor2 = null;
+        //int liftPos1 = 0;
+       // int liftPos2 = 0;
+
+
+        robot_hardware.liftMotor2.getCurrentPosition();
+        robot_hardware.liftMotor2.getCurrentPosition();
+        robot_hardware.liftMotor2.getPowerFloat();
+
+
         if (gamepad2.left_bumper) {
             robot_hardware.liftMotor1.setPower(0.45);
             robot_hardware.liftMotor2.setPower(0.45);
         } else if (gamepad2.right_bumper) {
             robot_hardware.liftMotor1.setPower(-0.45);
             robot_hardware.liftMotor2.setPower(-0.45);
-
-
         }
-      /*  if (robot_hardware.limit_lift_switch.getState()) {
+
+        robot_hardware.liftMotor1.getDirection();
+        robot_hardware.liftMotor2.getDirection();
+        robot_hardware.liftMotor2.getCurrentPosition();
+        robot_hardware.liftMotor2.getCurrentPosition();
+
+        telemetry.addData("motordirection", "");
+        if (robot_hardware.limit_lift_switch.getState() ) {
             {robot_hardware.liftMotor1.setPower(0);
             robot_hardware.liftMotor1.setPower(0);
 
+
+
             }
 
-        }*/
+        }
     }
 
 
-    //TODO :test basket code with bot
+
 
     public void basket(){
         if (gamepad2.dpad_up) {
 
-            robot_hardware.basketServo1.setPosition(0.45);
-            robot_hardware.basketServo2.setPosition(0.45);
-        }else if(gamepad2.left_bumper)
-        {robot_hardware.basketServo1.setPosition(0);
+            robot_hardware.basketServo1.setPosition(0.55);
+            robot_hardware.basketServo2.setPosition(0.55);
+        }else if(gamepad2.dpad_down)
+        {
+            robot_hardware.basketServo1.setPosition(0);
               robot_hardware.basketServo2.setPosition(0);
 
         }
@@ -171,11 +191,10 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
 
 
-//TODO : Make the speed Multiplier Use only the up and down Dpad Buttons
     public void speedChanger() {
         if (gamepad1.dpad_up) {
 
-            SpeedMultiplier = 0.5;
+           SpeedMultiplier = 0.5;
         } else if (gamepad1.dpad_down) {
             SpeedMultiplier = 0.35;
         } else if (gamepad1.dpad_left) {
@@ -186,41 +205,35 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
 
     }
+    //New code~Aldane Stennett 6/10/2019 dd/mm/yy
+   /* public void speedChangerVer2 (){
+        if(gamepad1.dpad_up && SpeedMultiplier <= 1 ) {
+            SpeedMultiplier = SpeedMultiplier + 0.05;
+
+        }else if(gamepad1.dpad_down && SpeedMultiplier >=0.35){
+            SpeedMultiplier = SpeedMultiplier - 0.05;
+        }
+        telemetry.addData("Status", "Max speed:");
+        telemetry.update();
+    }*/
 
 
 
     /**These Are all the Gamepad buttons and their uses in this method
-     * Dpad1_up    -> sets the value of speed reducer to  speed
-     * Dpad1_down  -> sets the value of speed reducer to
-     *  ->
-     * Dpad1_right ->
+     * Dpad_up    -> sets the value of speed reducer to  speed
+     * Dpad_down  -> sets the value of speed reducer to
+     * Dpad_left  ->
+     * Dpad_right ->
+     * leftAnalogStick
+     * RightAnalogStick
+     * buttonA
+     * buttonB
+     * buttonX
+     * buttonY
+     *
      */
 
-//TODO : Make a working speed dampener
-   /* public double[] speedDampener(double leftPower, double rightPower){
-        double  newLeftPower= 0;
-        double newRightPower = 0;
-        double[] values = new double[2];
-        double rightmotor = (robot_hardware.FRight.getPower() + robot_hardware.BRight.getPower())/2;
-        double leftmotor = (robot_hardware.FLeft.getPower() + robot_hardware.BLeft.getPower())/2;
-        double motordifference = rightmotor + leftmotor;
-        double powerdifference = leftPower + rightPower;
-        double overalldifference = motordifference + powerdifference;
-        if((overalldifference > 0 && overalldifference <  0.75) || (overalldifference < 0 && overalldifference >  -0.75)){
-            if ((rightmotor > dampeningThreshold && leftmotor > dampeningThreshold) || (rightmotor < -dampeningThreshold && leftmotor < -dampeningThreshold)) {
-                values[0] = newLeftPower;
-                values[1] = newRightPower;
-                return values;
-            }
 
-        }
-
-
-        values[0] = leftPower;
-        values[1] = rightPower;
-        return values;
-    }
-}*/
 
 
 }
