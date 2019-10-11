@@ -53,6 +53,7 @@ public class FGC_Jamaica_2019_Hardware {
      basketServo1.setDirection(Servo.Direction.FORWARD);
      basketServo2.setDirection(Servo.Direction. REVERSE);
 
+     FLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
  }

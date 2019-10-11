@@ -14,6 +14,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
 @TeleOp (name = "Main Code", group = "FGC-Jamaica")
 
+//TODO: Make the limit switch code
+//TODO: Make and test the servo code
+//TODO: Refactor Servo Code
+//TODO: Test The New Speed Reducer
+//TODO: Magnetic Limit Switch
+//TODO: Make A Doccumentation Comment With All our Controlls
+//TODO: Push Code to Kevonteh And Phillip
+//TODO: Make a section In THe engeneering Notebook That speaks about our General Expeirience Coding For the comptition. Objectives for programming.
+//TODO:Make a kill switch
+
+
 public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
     private FGC_Jamaica_2019_Hardware robot_hardware = new FGC_Jamaica_2019_Hardware();
@@ -133,15 +144,10 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
     private void lift() {
         // Initialization block
-       // Path.Direction liftMotor1 = null;
-       // Path.Direction liftMotor2 = null;
-        //int liftPos1 = 0;
-       // int liftPos2 = 0;
 
-
+        //robot_hardware.liftMotor1.;
         robot_hardware.liftMotor2.getCurrentPosition();
         robot_hardware.liftMotor2.getCurrentPosition();
-        robot_hardware.liftMotor2.getPowerFloat();
 
 
         if (gamepad2.left_bumper) {
