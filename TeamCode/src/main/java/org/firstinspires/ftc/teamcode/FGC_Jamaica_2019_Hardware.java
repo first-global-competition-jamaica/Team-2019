@@ -53,7 +53,21 @@ public class FGC_Jamaica_2019_Hardware {
      basketServo1.setDirection(Servo.Direction.FORWARD);
      basketServo2.setDirection(Servo.Direction. REVERSE);
 
-     FLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Front Left Motor Encoder
+     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Back Left Motor Encoder
+     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Front Right Motor Encoder
+     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Back Right Motor Encoder
+     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Intake Motor Encoder
+     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //liftMotor1 Motor Encoder
+     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //liftMotor2 Motor Encoder
+
+
+
+
+
+
+
+
 
 
  }
