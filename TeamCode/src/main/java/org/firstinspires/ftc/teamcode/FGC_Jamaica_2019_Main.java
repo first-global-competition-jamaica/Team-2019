@@ -20,7 +20,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 //TODO: Test The New Speed Reducer
 //TODO: Magnetic Limit Switch
 //TODO: Make A Doccumentation Comment With All our Controlls
-//TODO: Push Code to Kevonteh And Phillip
 //TODO: Make a section In THe engeneering Notebook That speaks about our General Expeirience Coding For the comptition. Objectives for programming.
 
 
@@ -35,6 +34,8 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     private double SpeedMultiplier = 0.5;
    // private double dampeningThreshold = 0.05;
     private boolean a_press, gamemode = false;
+    private boolean switchState =false;
+
 
 
 
@@ -60,9 +61,9 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
             basket();
 
-            speedChangerVer2();
+            speedChanger();
 
-            Limit();
+            //Limit();
 
             killSwitch();
 
@@ -171,8 +172,8 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         telemetry.update();
 
         if (gamepad2.right_bumper) {
-            robot_hardware.liftMotor1.setPower(-0.3);
-            robot_hardware.liftMotor2.setPower(-0.3);
+            robot_hardware.liftMotor1.setPower (gamepad1.right_stick_y*-0.3);
+            robot_hardware.liftMotor2.setPower (gamepad1.right_stick_y*-0.3);
         }
         telemetry.addData("Lift Status", "Lift Down");
 
@@ -188,9 +189,9 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 //--------------------------------------------------------------------------------------------------
 
 
-    private void Lift();{
-
-         if (robot_hardware.limit_lift_switch.getState()) {
+   {
+        while(opModeIsActive()) {
+            robot_hardware.limit_lift_switch.getState();
             robot_hardware.liftMotor1.setPower(0);
             robot_hardware.liftMotor1.setPower(0);
         }else{
@@ -198,10 +199,6 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
             robot_hardware.liftMotor2.setPower(0.3);
         }
     }
-
-
-
-
 
     public void basket(){
         if (gamepad2.dpad_up) {
@@ -219,25 +216,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
 
 
-
-
-
-    public void speedChanger() {
-        if (gamepad1.dpad_up) {
-
-           SpeedMultiplier = 0.5;
-        } else if (gamepad1.dpad_down) {
-            SpeedMultiplier = 0.35;
-        } else if (gamepad1.dpad_left) {
-            SpeedMultiplier = 1;
-        }
-        telemetry.addData("Status","Max speed: " + SpeedMultiplier);
-        telemetry.update();
-
-
-    }
-    //New code~Aldane Stennett 6/10/2019 dd/mm/yy
-    public void speedChangerVer2 (){
+    public void speedChanger (){
         if(gamepad1.dpad_up && SpeedMultiplier <= 1 ) {
             SpeedMultiplier = SpeedMultiplier + 0.05;
 
@@ -283,4 +262,5 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
          */
 
 
-    }
+}
+
