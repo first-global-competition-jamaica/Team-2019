@@ -16,10 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 @TeleOp (name = "Main Code", group = "FGC-Jamaica")
 
 //TODO: Make the limit switch code
-//TODO: test the servo code
 //TODO: Test The New Speed Reducer
-//TODO: Magnetic Limit Switch installation
-//TODO:
 //TODO: Make a section In THe engeneering Notebook That speaks about our General Expeirience Coding For the comptition. Objectives for programming.
 
 
@@ -32,29 +29,16 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     private double LeftP;
     private double RightP;
     private double SpeedMultiplier = 0.5;
-   // private double dampeningThreshold = 0.05;
+    private boolean liftUp = false;
     private boolean a_press, gamemode = false;
-    private int TicInitialOne = 0;
-    private int TicInitialTwo = 0;
-    private int TicFinalOne = 0;
-    private int TicFinalTwo = 0 ;
-    private int deltaTicOne = -TicInitialOne;
-    private int deltaTicTwo = TicInitialTwo ;
-
-
-
-
-
-
-
-
-
+    private int lift_halfway_point = -517/2;
+    private int midpoint= 0;
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
         robot_hardware.init(hardwareMap);
+        telemetry.update();
+        midpoint = robot_hardware.liftMotor2.getCurrentPosition()+ lift_halfway_point;
 
         waitForStart();
         runtime.reset();
@@ -68,7 +52,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
             basket();
 
-            Limit();
+//            Limit();
 
            // killSwitch();
 
@@ -82,7 +66,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 //                                         CHASSIS CODE                                           //
 //--------------------------------------------------------------------------------------------------
 
-      private void movement() {
+    private void movement() {
         LeftP = gamepad1.left_stick_y;
         RightP = gamepad1.right_stick_y;
 
@@ -111,7 +95,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         robot_hardware.FRight.setPower(RightP);
         robot_hardware.BLeft.setPower(LeftP);
         robot_hardware.BRight.setPower(RightP);
-        telemetry.addData("Controller Power:", "left (%.2f), right (%.2f)", LeftP, RightP);
+        telemetry.addData("Wheel Power:", "left (%.2f), right (%.2f)", LeftP, RightP);
     }
 
 //--------------------------------------------------------------------------------------------------
@@ -131,10 +115,10 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 //
 
             //code to control the rate of the intake
-            if (gamepad2.right_trigger > 0) {
+            if (gamepad1.right_trigger > 0) {
                 robot_hardware.Intake.setPower(gamepad2.right_trigger);
                 telemetry.addData("Conveyor Status", "ON");
-            } else if (gamepad2.left_trigger > 0) {
+            } else if (gamepad1.left_trigger > 0) {
                 robot_hardware.Intake.setPower(-gamepad2.left_trigger);
                 telemetry.addData("Conveyor Status", "ON");
             } else {
@@ -144,11 +128,11 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         }
 
         // code for the switching action for the conveyor
-        if (gamepad2.a) {
+        if (gamepad1.a) {
             robot_hardware.Intake.setPower(-1);
             a_press = true;
             telemetry.addData("Conveyor Status", "ON");
-        } else if (gamepad2.b) {
+        } else if (gamepad1.b) {
             robot_hardware.Intake.setPower(0);
             a_press = false;
             telemetry.addData("Conveyor Status", "OFF");
@@ -157,55 +141,61 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     }
 
     private  void lift() {
+        if(!robot_hardware.limit_lift_switch.getState()){
+            if(robot_hardware.liftMotor2.getCurrentPosition() > midpoint && gamepad2.right_stick_y < 0){
+                robot_hardware.liftMotor1.setPower(gamepad2.right_stick_y);
+                robot_hardware.liftMotor2.setPower(gamepad2.right_stick_y);
+            }else if(robot_hardware.liftMotor2.getCurrentPosition() < midpoint && gamepad2.right_stick_y > 0){
+                robot_hardware.liftMotor1.setPower(gamepad2.right_stick_y);
+                robot_hardware.liftMotor2.setPower(gamepad2.right_stick_y);
+            }else{
+                robot_hardware.liftMotor1.setPower(0);
+                robot_hardware.liftMotor2.setPower(0);
+            }
+        }else{
+            robot_hardware.liftMotor1.setPower(gamepad2.right_stick_y);
+            robot_hardware.liftMotor2.setPower(gamepad2.right_stick_y);
+        }
 
-        robot_hardware.liftMotor1.setPower(gamepad2.right_stick_y);
-        robot_hardware.liftMotor2.setPower(gamepad2.right_stick_y);
-        telemetry.addData("Lift Status", "Lift On");
-        telemetry.addData("Lift position", robot_hardware.liftMotor2.getCurrentPosition());
+        telemetry.addData("Lift Status", "Lift Up");
+        telemetry.addData("Lift position", ""+ robot_hardware.liftMotor2.getCurrentPosition());
+        telemetry.addData("switch state", ""+robot_hardware.limit_lift_switch.getState());
+        telemetry.addData("midpoint", ""+midpoint);
+        telemetry.addData("lift stick", ""+gamepad2.right_stick_y);
+
         telemetry.addData("Lift speed", gamepad2.right_stick_y*100);
-        //telemetry.addData("motor direction", "Lift Up");
     }
 
-//--------------------------------------------------------------------------------------------------
-//                                    LIMIT SWITCH                                                //
-//--------------------------------------------------------------------------------------------------
 
-   public void Limit() {
-        if( robot_hardware.limit_lift_switch.getState() == true) {
-            robot_hardware.liftMotor1.setPower(0);
-            robot_hardware.liftMotor1.setPower(0);
-        }else if(robot_hardware.limit_lift_switch.getState() == false){
-            robot_hardware.liftMotor1.setPower(0.2);
-            robot_hardware.liftMotor2.setPower(0.2);
-        }
-    }//Unfinished
 
-    public void basket(){
-        if (gamepad2.dpad_up) {
-            //Empties the Basket of pollutants
-            robot_hardware.basketServo1.setPosition(0.05);//Right Servo
-            robot_hardware.basketServo2.setPosition(0.6);//Left Servo
-        }else if(gamepad2.dpad_down) {
-            //Returns the basket to it's original position
-            robot_hardware.basketServo1.setPosition(0.4);//Right Servo
-            robot_hardware.basketServo2.setPosition(0.95);//Left Servo
-            if(robot_hardware.basketButton.getState() == false){
-                while(robot_hardware.basketButton.getState() == false){
-                    double servo1Pos = robot_hardware.basketServo1.getPosition();
-                    double servo2Pos = robot_hardware.basketServo2.getPosition();
-                    robot_hardware.basketServo1.setPosition((servo1Pos+0.01));
-                    robot_hardware.basketServo2.setPosition((servo2Pos+0.01));
-                }
-
-            }
-
-        }
-}
 
 //--------------------------------------------------------------------------------------------------
 //                                        SPEED CHANGER                                           //
 //--------------------------------------------------------------------------------------------------
+    public void basket(){
+        if(!robot_hardware.limit_lift_switch.getState() && robot_hardware.liftMotor2.getCurrentPosition() < midpoint ){
+            liftUp = true;
+        }else{
+            liftUp = false;
+        }
+        if (liftUp) {
+            if (gamepad2.dpad_up) {
+                //Empties the Basket of pollutants
+                robot_hardware.basketServo1.setPosition(0.0);//Right Servo
+                robot_hardware.basketServo2.setPosition(0.55);//Left Servo
+            } else if (gamepad2.dpad_down) {
+                //Returns the basket to it's original position
+                for(int a = 0; a <4; a++){
+                    double servo1Pos = robot_hardware.basketServo1.getPosition();
+                    double servo2Pos = robot_hardware.basketServo2.getPosition();
+                    robot_hardware.basketServo1.setPosition((servo1Pos+0.1));
+                    robot_hardware.basketServo2.setPosition((servo2Pos+0.1));
+                    sleep(100);
+                }
+            }
 
+        }
+    }
     public void speedChanger (){
         if(gamepad1.dpad_up && SpeedMultiplier <= 1 ) {
             SpeedMultiplier = SpeedMultiplier + 0.05;
