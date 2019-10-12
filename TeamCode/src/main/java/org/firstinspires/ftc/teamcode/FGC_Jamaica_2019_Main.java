@@ -17,13 +17,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
 //TODO: Make the limit switch code
 //TODO: Make and test the servo code
-//TODO: Refactor Servo Code
 //TODO: Test The New Speed Reducer
 //TODO: Magnetic Limit Switch
 //TODO: Make A Doccumentation Comment With All our Controlls
 //TODO: Push Code to Kevonteh And Phillip
 //TODO: Make a section In THe engeneering Notebook That speaks about our General Expeirience Coding For the comptition. Objectives for programming.
-//TODO:Make a kill switch
+
 
 
 public class FGC_Jamaica_2019_Main extends LinearOpMode {
@@ -62,6 +61,8 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
             basket();
 
             speedChangerVer2();
+
+            Limit();
 
             killSwitch();
 
@@ -154,13 +155,13 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
 
 
-    private  lift() {
+    private  void lift() {
 
         // Initialization block
         int TicInitialOne = 0;       int TicInitialTwo = 0;
         int TicFinalOne = 0;         int deltaTic1Two = 0;
         int deltaTicOne = 0;         int deltaTicTwo = 0;
-        int deltaTic = 0;            public Limit()
+        int deltaTic = 0;
 
         if (gamepad2.left_bumper ) {
             robot_hardware.liftMotor1.setPower(0.3);
@@ -180,22 +181,24 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
 
         telemetry.addData("motordirection", "Lift Up");
+    }
 
 //--------------------------------------------------------------------------------------------------
 //                                    LIMIT SWITCH
 //--------------------------------------------------------------------------------------------------
-     public void Limit()
 
 
-        if(robot_hardware.limit_lift_switch.getState() ){
-            {robot_hardware.liftMotor1.setPower(0);
+    private void Lift();{
+
+         if (robot_hardware.limit_lift_switch.getState()) {
             robot_hardware.liftMotor1.setPower(0);
-            }{
-                robot_hardware.liftMotor1.setPower(0.3);
-                robot_hardware.liftMotor2.setPower(0.3);
-            }
+            robot_hardware.liftMotor1.setPower(0);
+        }else{
+            robot_hardware.liftMotor1.setPower(0.3);
+            robot_hardware.liftMotor2.setPower(0.3);
         }
     }
+
 
 
 
@@ -251,22 +254,15 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 //--------------------------------------------------------------------------------------------------
 
     public void killSwitch() {
-
-
-        { boolean KillTrig = false;
-
-        (gamepad2.y && gamepad2.left_bumper && gamepad2.right_bumper) KillTrig = true;
-            do {
-                robot_hardware.liftMotor1.setPower(0);
+        { if(gamepad2.y && gamepad2.left_bumper && gamepad2.right_bumper)
+             {  robot_hardware.liftMotor1.setPower(0);
                 robot_hardware.liftMotor2.setPower(0);
                 robot_hardware.FLeft.setPower(0);
                 robot_hardware.FRight.setPower(0);
                 robot_hardware.BLeft.setPower(0);
                 robot_hardware.BRight.setPower(0);
-
-            }while()
-
-            }
+             }
+        }
     }
 
 //--------------------------------------------------------------------------------------------------
