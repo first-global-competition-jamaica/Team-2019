@@ -62,7 +62,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
             speedChangerVer2();
 
-            Limit();
+            limit();
 
             killSwitch();
 
@@ -185,10 +185,9 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
 //--------------------------------------------------------------------------------------------------
 //                                    LIMIT SWITCH
-//--------------------------------------------------------------------------------------------------
-
-
-    private void Lift();{
+//--------------------------------------------------------------------------------------------
+//
+         { private void Lift();
 
          if (robot_hardware.limit_lift_switch.getState()) {
             robot_hardware.liftMotor1.setPower(0);
