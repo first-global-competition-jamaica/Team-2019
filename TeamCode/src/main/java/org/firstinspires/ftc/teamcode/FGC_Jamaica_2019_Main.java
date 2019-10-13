@@ -32,6 +32,12 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     private boolean a_press, gamemode = false;
     private int lift_halfway_point = -517/2;
     private int midpoint= 0;
+    private boolean killswitch  = false;
+
+//--------------------------------------------------------------------------------------------------
+//                                       ALL METHODS                                              //
+//--------------------------------------------------------------------------------------------------
+
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -51,10 +57,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
             basket();
 
-//            Limit();
-
-           // killSwitch();
-
+            killSwitch();
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
@@ -139,6 +142,9 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
     }
 
+//--------------------------------------------------------------------------------------------------
+//                                       LINEAR SLIDE
+//--------------------------------------------------------------------------------------------------
     private  void lift() {
         if(!robot_hardware.limit_lift_switch.getState()){
             if(robot_hardware.liftMotor2.getCurrentPosition() > midpoint && gamepad2.right_stick_y < 0){
@@ -213,60 +219,60 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 //--------------------------------------------------------------------------------------------------
 
     public void killSwitch() {
-        if(gamepad2.y && gamepad2.left_bumper  && gamepad2.right_bumper)
-        {  robot_hardware.liftMotor1.setPower(0);
-            robot_hardware.liftMotor2.setPower(0);
-            robot_hardware.FLeft.setPower(0);
-            robot_hardware.FRight.setPower(0);
-            robot_hardware.BLeft.setPower(0);
-            robot_hardware.BRight.setPower(0);
+        if (gamepad2.y && gamepad2.left_bumper && gamepad2.right_bumper)
+            {killswitch = true;}
+        {
 
-        } else if(gamepad2.a && gamepad2.b){
-            robot_hardware.liftMotor1.setPower(0.3);
-            robot_hardware.liftMotor2.setPower(0.3);
-            robot_hardware.FLeft.setPower(0.35);
-            robot_hardware.FRight.setPower(0.35);
-            robot_hardware.BLeft.setPower(0.35);
-            robot_hardware.BRight.setPower(0.35);
+            if (killswitch = true) {
+                robot_hardware.liftMotor1.setPower(0);
+                robot_hardware.liftMotor2.setPower(0);
+                robot_hardware.FLeft.setPower(0);
+                robot_hardware.FRight.setPower(0);
+                robot_hardware.BLeft.setPower(0);
+                robot_hardware.BRight.setPower(0);
 
+            } else if (gamepad2.start && gamepad2.a && gamepad2.b){
+                killswitch = false;
+            }else{
+                killswitch = false;
+            }
+
+
+            }
         }
-    }//unfinished
+    }
+
 //--------------------------------------------------------------------------------------------------
 //                                  CONTROLLER DOCUMENTATION                                      //
 //--------------------------------------------------------------------------------------------------
 
-    /*These Are all the controller buttons and their uses in this method
-
-      CONTROLLER 1
-      Dpad_up    -> sets the value of speed reducer to  speed
-      Dpad_down  -> sets the value of speed reducer to
-      Dpad_left  -> N/A
-      Dpad_right ->N/A
-      leftAnalogStick -> left motor power
-      RightAnalogStick -> right motor power
-      buttonA -> starts intake
-      buttonB -> stops intake
-      buttonX ->N/A
-      buttonY ->N/A
-      right_bumper ->
-      left_bumper ->
-
-      CONTROLLER 2
-
-      Dpad_up    -> sets the value of speed reducer to  speed
-      Dpad_down  -> sets the value of speed reducer to
-      Dpad_left  -> N/A
-      Dpad_right ->N/A
-      leftAnalogStick -> left motor power
-      RightAnalogStick -> right motor power
-      buttonA -> starts intake
-      buttonB -> stops intake
-      buttonX ->N/A
-      buttonY ->N/A
-      right_bumper ->
-      left_bumper ->
-
-     */
-
-}
-
+//      These Are all the controller buttons and their uses in this method
+//
+//      CONTROLLER 1
+//      Dpad_up    -> sets the value of speed reducer to  speed
+//      Dpad_down  -> sets the value of speed reducer to
+//      Dpad_left  -> N/A
+//      Dpad_right ->N/A
+//      leftAnalogStick -> left motor power
+//      RightAnalogStick -> right motor power
+//      buttonA -> starts intake
+//      buttonB -> stops intake
+//      buttonX ->N/A
+//      buttonY ->N/A
+//      right_bumper ->
+//      left_bumper ->
+//
+//      CONTROLLER 2
+//
+//      Dpad_up    -> sets the value of speed reducer to  speed
+//      Dpad_down  -> sets the value of speed reducer to
+//      Dpad_left  -> N/A
+//      Dpad_right ->N/A
+//      leftAnalogStick -> left motor power
+//      RightAnalogStick -> right motor power
+//      buttonA -> starts intake
+//      buttonB -> stops intake
+//      buttonX ->N/A
+//      buttonY ->N/A
+//      right_bumper ->
+//      left_bumper ->
