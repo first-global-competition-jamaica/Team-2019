@@ -15,8 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
 @TeleOp (name = "Main Code", group = "FGC-Jamaica")
 
-//TODO: Make the limit switch code
-//TODO: Test The New Speed Reducer
+
 //TODO: Make a section In THe engeneering Notebook That speaks about our General Expeirience Coding For the comptition. Objectives for programming.
 
 
@@ -99,7 +98,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     }
 
 //--------------------------------------------------------------------------------------------------
-//                                    INTAKE CONVEYOR
+//                                    INTAKE CONVEYOR                                             //
 //--------------------------------------------------------------------------------------------------
 
     private void intake() {
@@ -166,12 +165,10 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         telemetry.addData("Lift speed", gamepad2.right_stick_y*100);
     }
 
-
-
-
 //--------------------------------------------------------------------------------------------------
-//                                        SPEED CHANGER                                           //
+//                                        BASKET                                                  //
 //--------------------------------------------------------------------------------------------------
+
     public void basket(){
         if(!robot_hardware.limit_lift_switch.getState() && robot_hardware.liftMotor2.getCurrentPosition() < midpoint ){
             liftUp = true;
@@ -196,6 +193,11 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
         }
     }
+
+//--------------------------------------------------------------------------------------------------
+//                                        SPEED CHANGER                                           //
+//--------------------------------------------------------------------------------------------------
+
     public void speedChanger (){
         if(gamepad1.dpad_up && SpeedMultiplier <= 1 ) {
             SpeedMultiplier = SpeedMultiplier + 0.05;
