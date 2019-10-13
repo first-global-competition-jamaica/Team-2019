@@ -13,8 +13,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 public class FGC_Jamaica_2019_Hardware {
-
-
     public DcMotor FRight    = null;
     public DcMotor FLeft     = null;
     public DcMotor BRight    = null;
@@ -25,6 +23,8 @@ public class FGC_Jamaica_2019_Hardware {
     public Servo basketServo1 = null;
     public Servo basketServo2 = null;
     public DigitalChannel limit_lift_switch = null;
+  //  public DigitalChannel basketButton =null;
+
     public HardwareMap hwmap;
 
 
@@ -37,6 +37,7 @@ public class FGC_Jamaica_2019_Hardware {
      BLeft  = hwmap.get(DcMotor.class, "BLeft");
      Intake = hwmap.get(DcMotor.class, "Intake");
      limit_lift_switch = hwmap.get(DigitalChannel.class, "lift_switch");
+  //   basketButton = hwmap.get(DigitalChannel.class, "touchSensor");
      liftMotor1 = hwmap.get(DcMotor.class, "liftLeft");
      liftMotor2 = hwmap.get(DcMotor.class, "liftRight");
      basketServo1 = hwmap.get(Servo.class, "servo1");
@@ -50,10 +51,13 @@ public class FGC_Jamaica_2019_Hardware {
      liftMotor1.setDirection(DcMotor.Direction.REVERSE);
      liftMotor2.setDirection(DcMotor.Direction.REVERSE);
      limit_lift_switch.setMode(DigitalChannel.Mode.INPUT);
+  //   basketButton.setMode(DigitalChannel.Mode.INPUT);
      basketServo1.setDirection(Servo.Direction.FORWARD);
      basketServo2.setDirection(Servo.Direction. REVERSE);
+     liftMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Front Left Motor Encoder
+
+    /* FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Front Left Motor Encoder
      FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Back Left Motor Encoder
      FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Front Right Motor Encoder
      FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Back Right Motor Encoder
@@ -61,7 +65,7 @@ public class FGC_Jamaica_2019_Hardware {
      FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //liftMotor1 Motor Encoder
      FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //liftMotor2 Motor Encoder
 
-
+*/
 
 
 
