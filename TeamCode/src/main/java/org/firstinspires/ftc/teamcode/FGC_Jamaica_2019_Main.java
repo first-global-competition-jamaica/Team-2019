@@ -86,6 +86,15 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
             LeftP = gamepad1.left_stick_y - gamepad1.left_stick_x;
             RightP = gamepad1.left_stick_y + gamepad1.left_stick_x;
         }
+        if (gamepad1.y) {
+            LeftP = 0.6;
+            RightP = 0.6;
+
+        }        else if (!gamepad1.y) {
+            LeftP = gamepad1.left_stick_y - gamepad1.left_stick_x;
+            RightP = gamepad1.left_stick_y + gamepad1.left_stick_x;
+
+        }
         //Reduce the speed of the robot
 
         LeftP = LeftP * SpeedMultiplier;
