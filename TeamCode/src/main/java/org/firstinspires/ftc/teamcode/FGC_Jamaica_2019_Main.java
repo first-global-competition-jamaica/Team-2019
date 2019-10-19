@@ -6,6 +6,7 @@ import android.graphics.Path;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -32,6 +33,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     // power variables for the driving wheels
     private double LeftP;
     private double RightP;
+    private boolean wheel_brake = false;
     //private  boolean gamemode = false; only activate if one joystick mode needed
 
     // The speed limit for the drive wheels
@@ -45,8 +47,8 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     private int midpoint = 0;
 
     //servo position initialization
-    private double right_servo_open = 0.0;
-    private double left_servo_open = 0.55;
+    private double right_servo_open = 0.285;
+    private double left_servo_open = 0.6;
 
     //Robot shutdown controller
     private boolean killswitch = false;
@@ -63,6 +65,9 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         telemetry.update();
         //initialize the midpoint value for the lift
         midpoint = robot_hardware.liftMotor2.getCurrentPosition() + lift_halfway_point;
+        //initialize servo
+        robot_hardware.basketServo1.setPosition(right_servo_open+0.5);
+        robot_hardware.basketServo2.setPosition(left_servo_open+0.5);
 
         waitForStart();
         runtime.reset();
@@ -212,19 +217,22 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         if (liftUp) {
             if (gamepad2.dpad_up) {
                 //Empties the Basket of pollutants
-                robot_hardware.basketServo1.setPosition(right_servo_open);//Right Servo
-                robot_hardware.basketServo2.setPosition(left_servo_open);//Left Servo
+                robot_hardware.basketServo1.setPosition(right_servo_open-0.1);//Right Servo
+                robot_hardware.basketServo2.setPosition(left_servo_open-0.1);//Left Servo
                 liftDisable = true;
             } else if (gamepad2.dpad_down) {
                 //Returns the basket to it's original position
-                for (int a = 0; a < 4; a++) {
-                    double servo1Pos = robot_hardware.basketServo1.getPosition();
-                    double servo2Pos = robot_hardware.basketServo2.getPosition();
-                    robot_hardware.basketServo1.setPosition((servo1Pos + 0.1));
-                    robot_hardware.basketServo2.setPosition((servo2Pos + 0.1));
-                    sleep(100);
+                if(liftDisable){
+                    for (int a = 0; a < 5; a++) {
+                        double servo1Pos = robot_hardware.basketServo1.getPosition();
+                        double servo2Pos = robot_hardware.basketServo2.getPosition();
+                        robot_hardware.basketServo1.setPosition((servo1Pos + 0.1));
+                        robot_hardware.basketServo2.setPosition((servo2Pos + 0.1));
+                        sleep(100);
+                    }
+                    liftDisable = false;
                 }
-                liftDisable = false;
+
             }
 
         }
@@ -242,6 +250,22 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
             speedMultiplier = speedMultiplier - 0.05;
         }
         telemetry.addData("Status", "Max speed:" +speedMultiplier);
+    }
+
+    public void wheelBrake(){
+        if(gamepad1.y){
+            wheel_brake = true;
+
+        }else if(gamepad1.x){
+            wheel_brake = false;
+        }
+
+        if(wheel_brake){
+            robot_hardware.FLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            robot_hardware.FRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            robot_hardware.BLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            robot_hardware.BRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
     }
 
 //--------------------------------------------------------------------------------------------------
