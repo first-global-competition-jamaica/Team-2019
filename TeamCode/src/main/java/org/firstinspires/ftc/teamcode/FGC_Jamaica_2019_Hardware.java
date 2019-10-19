@@ -14,19 +14,24 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 public class FGC_Jamaica_2019_Hardware {
+
+    // Wheel motors
     public DcMotor FRight    = null;
     public DcMotor FLeft     = null;
     public DcMotor BRight    = null;
     public DcMotor BLeft     = null;
+    // Intake Motors
     public DcMotor Intake    = null;
+    // Lift Motors
     public DcMotor liftMotor1 = null;
     public DcMotor liftMotor2 = null;
     public DcMotor liftMotor3 = null;
+    // Basket Servos
     public Servo basketServo1 = null;
     public Servo basketServo2 = null;
+    // Sensors
     public DigitalChannel limit_lift_switch = null;
-  //  public DigitalChannel basketButton =null;
-
+    // Shortened hardware map
     public HardwareMap hwmap;
 
 
@@ -39,42 +44,25 @@ public class FGC_Jamaica_2019_Hardware {
      BLeft  = hwmap.get(DcMotor.class, "BLeft");
      Intake = hwmap.get(DcMotor.class, "Intake");
      limit_lift_switch = hwmap.get(DigitalChannel.class, "lift_switch");
-  //   basketButton = hwmap.get(DigitalChannel.class, "touchSensor");
      liftMotor1 = hwmap.get(DcMotor.class, "liftLeft");
      liftMotor2 = hwmap.get(DcMotor.class, "liftRight");
      liftMotor3 = hwmap.get(DcMotor.class,  "liftMotor3");
      basketServo1 = hwmap.get(Servo.class, "servo1");
      basketServo2 = hwmap.get(Servo.class, "servo2");
 
-
+     //Motor and Servo directions
      FLeft.setDirection(DcMotor.Direction.FORWARD);
-     FRight.setDirection(DcMotor.Direction.REVERSE);
      BLeft.setDirection(DcMotor.Direction.FORWARD);
+     FRight.setDirection(DcMotor.Direction.REVERSE);
      BRight.setDirection(DcMotor.Direction.REVERSE);
      liftMotor1.setDirection(DcMotor.Direction.REVERSE);
      liftMotor2.setDirection(DcMotor.Direction.REVERSE);
      liftMotor3.setDirection(DcMotor.Direction.REVERSE);
-     limit_lift_switch.setMode(DigitalChannel.Mode.INPUT);
-  //   basketButton.setMode(DigitalChannel.Mode.INPUT);
      basketServo1.setDirection(Servo.Direction.FORWARD);
      basketServo2.setDirection(Servo.Direction. REVERSE);
+     // Config Setting
      liftMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-    /* FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Front Left Motor Encoder
-     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Back Left Motor Encoder
-     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Front Right Motor Encoder
-     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Back Right Motor Encoder
-     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Intake Motor Encoder
-     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //liftMotor1 Motor Encoder
-     FRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //liftMotor2 Motor Encoder
-
-*/
-
-
-
-
-
+     limit_lift_switch.setMode(DigitalChannel.Mode.INPUT);
 
 
 
