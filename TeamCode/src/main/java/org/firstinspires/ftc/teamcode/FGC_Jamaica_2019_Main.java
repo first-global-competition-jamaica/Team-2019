@@ -16,7 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 @TeleOp (name = "Main Code", group = "FGC-Jamaica")
 
 
-//TODO: Make a section In THe engeneering Notebook That speaks about our General Expeirience Coding For the comptition. Objectives for programming.
+//TODO: Disengage the intake when lift up is true
+//TODO: Fix the problem with the intake not taking input from
 
 
 
@@ -89,10 +90,6 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
         if (gamepad1.y) {
             LeftP = 0.6;
             RightP = 0.6;
-
-        }        else if (!gamepad1.y) {
-            LeftP = gamepad1.left_stick_y - gamepad1.left_stick_x;
-            RightP = gamepad1.left_stick_y + gamepad1.left_stick_x;
 
         }
         //Reduce the speed of the robot
