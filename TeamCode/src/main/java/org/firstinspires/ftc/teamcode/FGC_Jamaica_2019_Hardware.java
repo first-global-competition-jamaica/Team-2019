@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -20,6 +21,7 @@ public class FGC_Jamaica_2019_Hardware {
     public DcMotor Intake    = null;
     public DcMotor liftMotor1 = null;
     public DcMotor liftMotor2 = null;
+    public DcMotor liftMotor3 = null;
     public Servo basketServo1 = null;
     public Servo basketServo2 = null;
     public DigitalChannel limit_lift_switch = null;
@@ -40,6 +42,7 @@ public class FGC_Jamaica_2019_Hardware {
   //   basketButton = hwmap.get(DigitalChannel.class, "touchSensor");
      liftMotor1 = hwmap.get(DcMotor.class, "liftLeft");
      liftMotor2 = hwmap.get(DcMotor.class, "liftRight");
+     liftMotor3 = hwmap.get(DcMotor.class,  "liftMotor3");
      basketServo1 = hwmap.get(Servo.class, "servo1");
      basketServo2 = hwmap.get(Servo.class, "servo2");
 
@@ -50,6 +53,7 @@ public class FGC_Jamaica_2019_Hardware {
      BRight.setDirection(DcMotor.Direction.REVERSE);
      liftMotor1.setDirection(DcMotor.Direction.REVERSE);
      liftMotor2.setDirection(DcMotor.Direction.REVERSE);
+     liftMotor3.setDirection(DcMotor.Direction.REVERSE);
      limit_lift_switch.setMode(DigitalChannel.Mode.INPUT);
   //   basketButton.setMode(DigitalChannel.Mode.INPUT);
      basketServo1.setDirection(Servo.Direction.FORWARD);
