@@ -159,16 +159,21 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
             if(robot_hardware.liftMotor2.getCurrentPosition() > midpoint && gamepad2.right_stick_y < 0){
                 robot_hardware.liftMotor1.setPower(gamepad2.right_stick_y);
                 robot_hardware.liftMotor2.setPower(gamepad2.right_stick_y);
+                robot_hardware.liftMotor3.setPower(gamepad2.right_stick_y);
             }else if(robot_hardware.liftMotor2.getCurrentPosition() < midpoint && gamepad2.right_stick_y > 0){
                 robot_hardware.liftMotor1.setPower(gamepad2.right_stick_y);
                 robot_hardware.liftMotor2.setPower(gamepad2.right_stick_y);
+                robot_hardware.liftMotor3.setPower(gamepad2.right_stick_y);
             }else{
                 robot_hardware.liftMotor1.setPower(0);
                 robot_hardware.liftMotor2.setPower(0);
+                robot_hardware.liftMotor3.setPower(0);
             }
         }else{
             robot_hardware.liftMotor1.setPower(gamepad2.right_stick_y);
             robot_hardware.liftMotor2.setPower(gamepad2.right_stick_y);
+            robot_hardware.liftMotor3.setPower(gamepad2.right_stick_y);
+
         }
 
         telemetry.addData("Lift Status", "Lift Up");
