@@ -16,13 +16,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
 @TeleOp (name = "Main Code", group = "FGC-Jamaica")
 
+//TODO: Stop intake when lift is active untested
 
-//TODO: Disengage the intake when lift up is true
-//TODO: Fix the problem with the intake not taking input from the triggers
 //TODO: Fix the speed telemetry
-//TODO: Stop intake when lift is active
-//TODO: increase srevo tilt angle
 //TODO: Fix how runtime is displayed
+
 
 public class FGC_Jamaica_2019_Main extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -34,11 +32,12 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     private double LeftP;
     private double RightP;
     private boolean wheel_brake = false;
-    //private  boolean gamemode = false; only activate if one joystick mode needed
+    private  boolean gamemode = false; //only activate if one joystick mode needed
 
     // The speed limit for the drive wheels
     private double speedMultiplier = 0.5;
-    private boolean liftUp = false;
+    //when this variable is true it enables the basket to be tilted
+    private boolean basketTilt = false;
     // Intake control variable
     private boolean intake_state = false;
 
@@ -53,9 +52,12 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
     //Robot shutdown controller
     private boolean killswitch = false;
 
+    //allows for the lift system to be disengaged when it is not needed
     private boolean liftDisable = false;
 
-    //--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
 //                                       ALL METHODS                                              //
 //--------------------------------------------------------------------------------------------------
     @Override
@@ -99,16 +101,18 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
         //Speed changing function
         speedChanger();
+        wheelBrake();
 
-        // Code for the GameMode using one Joystick to control the robot
-        //only activate if one joystick mode is needed
-//        if (gamepad1.left_stick_button && gamepad1.a) {
-//            gamemode = true;
-//        }else(gamepad1.left_stick_button && gamepad1.right_stick_button){ gamemode = false; }
-//        if(gamemode) {
-//            LeftP = gamepad1.left_stick_y - gamepad1.left_stick_x;
-//            RightP = gamepad1.left_stick_y + gamepad1.left_stick_x;
-//        }
+        //Code for the GameMode using one Joystick to control the robot
+       // only activate if one joystick mode is needed
+        if (gamepad1.left_stick_button && gamepad1.a) {
+            gamemode = true;
+        }else(gamepad1.left_stick_button && gamepad1.right_stick_button)
+        { gamemode = false; }
+        if(gamemode) {
+            LeftP = gamepad1.left_stick_y - gamepad1.left_stick_x;
+            RightP = gamepad1.left_stick_y + gamepad1.left_stick_x;
+        }
 
         // Sets the maximum speed of the motor
         LeftP = LeftP * speedMultiplier;
@@ -128,7 +132,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
     private void intake() {
         // Code to switch the intake on or off
-        if(!liftUp) {
+        if(!basketTilt) {
             if (!intake_state) {
                 if (gamepad1.right_trigger > 0) {
                     robot_hardware.Intake.setPower(gamepad1.right_trigger);
@@ -195,9 +199,9 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
         // Check if the lift is up and assign the correct state for the lift up variable
         if (!robot_hardware.limit_lift_switch.getState() && robot_hardware.liftMotor2.getCurrentPosition() < midpoint) {
-            liftUp = true;
+            basketTilt = true;
         } else {
-            liftUp = false;
+            basketTilt = false;
         }
 
 
@@ -214,7 +218,7 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 
     public void basket() {
         // Only allow the basket to open when the lif is up
-        if (liftUp) {
+        if (basketTilt) {
             if (gamepad2.dpad_up) {
                 //Empties the Basket of pollutants
                 robot_hardware.basketServo1.setPosition(right_servo_open-0.1);//Right Servo
@@ -242,15 +246,29 @@ public class FGC_Jamaica_2019_Main extends LinearOpMode {
 //                                        SPEED CHANGER
 //--------------------------------------------------------------------------------------------------
     public void speedChanger() {
-        //set the maximum speed limit base of dpap value
-        if (gamepad1.dpad_up && speedMultiplier <= 1) {
-            speedMultiplier = speedMultiplier + 0.05;
+        //set the maximum speed limit base of dpad value
 
-        } else if (gamepad1.dpad_down && speedMultiplier >= 0.35) {
+            //set the maximum speed limit base of dpad value
+            if (gamepad1.dpad_up && speedMultiplier <= 1) {
+                speedMultiplier = speedMultiplier + 0.05;
+
+            } else if (gamepad1.dpad_down && speedMultiplier >= 0.35) {
+                speedMultiplier = speedMultiplier - 0.05;
+            }
+            telemetry.addData("Status",  "speedMultiplier");
+
+
+        if(gamepad1.dpad_up && speedMultiplier <= 1){
+            speedMultiplier = speedMultiplier + 0.05;
+        }else if(gamepad1.dpad_down && speedMultiplier >= 0.30){
             speedMultiplier = speedMultiplier - 0.05;
+
         }
-        telemetry.addData("Status", "Max speed:" +speedMultiplier);
     }
+
+
+
+
 
     public void wheelBrake(){
         if(gamepad1.y){
